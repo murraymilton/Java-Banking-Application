@@ -1,4 +1,4 @@
-# Java-Banking-System-Application
+# Java-Banking-Application
 
 I am building a banking application.
 
