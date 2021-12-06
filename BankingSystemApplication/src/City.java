@@ -8,9 +8,6 @@ public class City {
     }
     @Override
     public String toString(){
-        return "City{" +
-                "cityName='" + cityName + '\'' +
-                ", regionName='" + regionName + '\'' +
-                '}';
+        return cityName + " - " + regionName;
     }
 }
