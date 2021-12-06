@@ -36,9 +36,17 @@ public class AccountFrame extends JFrame {
 
     public AccountFrame() {
         super("Account Operations");
+        setLayout(null);
+        setSize(600,400);
 
 
 
 
+    }
+
+    public static void main(String[]args){
+        AccountFrame af = new AccountFrame();
+        af.setVisible(true);
+        af.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
