@@ -24,9 +24,20 @@ public class Account implements  Comparable {
         this.gender = gender;
 
         balance = 0.0;
-        openDate = null;
+        openDate = null; // Passing the currentDate();
     }
 
+    public Account(int accNumb, String owner, City city, char gender, double balance ){
+        this.accNumb = accNumb;
+        this.owner = owner;
+        this.city = city;
+        this.gender = gender;
+        setBalance(balance);
+    }
+
+    public void setBalance(double bal){
+        balance = bal > 0.0 ? bal: 0.0;
+    }
 
 
 
