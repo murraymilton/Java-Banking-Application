@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
@@ -141,6 +143,69 @@ public class AccountFrame extends JFrame {
         add(p3);
         add(p4);
         add(p5);
+
+
+        //Table creation
+        tableModel = new DefaultTableModel();
+
+        table = new JTable(tableModel);
+        tableModel.addColumn("TransactionNo:");
+        tableModel.addColumn("TransactionDate");
+        tableModel.addColumn("TransactionType");
+        tableModel.addColumn("TransactionAmount");
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        p5.add(scrollPane);
+
+        //************ Methods ****************//
+        newBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                accNoTXT.setText("");
+                ownerLBL.setText("");
+                citiesCMB.setSelectedIndex(0);
+                maleRDB.setSelected(true);
+                balanceTXT.setText("");
+                amountTXT.setText("");
+                newRec = true;
+            }
+        });
+
+        saveBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (newRec){
+                    // Insertion
+                   if (ownerTXT.getText().length() !=0){
+                       acc = new Account(
+                               ownerTXT.getText(),
+                               (City) citiesCMB.getSelectedItem(),
+                               maleRDB.isSelected()? 'M' : 'F');
+
+                       accNoTXT.setText(String.valueOf(acc.accNumb));
+                       accountSet.add(acc);
+                       accountsLSTMDL.addElement(acc);
+                       newRec = false;
+                   } else{
+                       JOptionPane.showMessageDialog(null, "All Fields Are Required");
+                   }
+                }else{
+                    accountSet.remove(acc);
+
+                    int a = Integer.parseInt(accNoTXT.getText());
+                    String o = ownerTXT.getText();
+                    City c = (City) citiesCMB.getSelectedItem();
+
+                    char g = maleRDB.isSelected()? 'M':'F';
+                    double b = Double.parseDouble(balanceTXT.getText());
+                    acc = new Account(a,o,c,g,b);
+                    accountSet.add(acc);
+                    accountsLSTMDL.setElementAt(acc, accountsLST.getSelectedIndex());
+                    newRec = false;
+
+                }
+            }
+        });
 
     }
 
