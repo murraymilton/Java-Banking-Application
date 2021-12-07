@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -166,7 +167,7 @@ public class AccountFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 accNoTXT.setText("");
-                ownerLBL.setText("");
+                ownerTXT.setText("");
                 citiesCMB.setSelectedIndex(0);
                 maleRDB.setSelected(true);
                 balanceTXT.setText("");
@@ -294,7 +295,31 @@ public class AccountFrame extends JFrame {
             }
 
             private void SearchTransactionList(int accNumb) {
+                List<Transaction> filteredList = new ArrayList<>();
 
+                //Here we will iterate through the list
+                for (Transaction t: translist){
+
+
+                    // filter over the transaction numbers
+                    if (t.getAcc().accNumb == accNumb){
+                        filteredList.add(t);
+                    }
+
+                }
+
+            // Will display the filtered list of transactions
+                for (int i=0; i< filteredList.size(); i++){
+
+                    //SHow data in table
+
+                    tableModel.addRow(new Object[] {
+                            filteredList.get(i).getTrsNo(),
+                            filteredList.get(i).getDate(),
+                            filteredList.get(i).getOperation(),
+                            filteredList.get(i).getAmount()
+                    });
+                }
 
 
 
