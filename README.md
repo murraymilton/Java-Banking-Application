@@ -1,4 +1,4 @@
-# Java-Banking-System-Application
+# Java-Banking-Management-Application
 
 
 Status: Current working implementing the accounts receivable and payable section.
