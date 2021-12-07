@@ -1,9 +1,13 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -206,6 +210,111 @@ public class AccountFrame extends JFrame {
                 }
             }
         });
+
+        showBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String s = "";
+                Iterator<Account> it = accountSet.iterator();
+                while(it.hasNext()){
+                    s += it.next().toString()+"\n";
+                    JOptionPane.showMessageDialog(null,s);
+                }
+            }
+        });
+
+        depositBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!newRec && amountTXT.getText().length() !=0){
+
+                    //Here we are going to insert the transaction history into table
+                    Transaction t = new Transaction(acc, LocalDate.now(),
+                            'D', Double.parseDouble(amountTXT.getText()));
+                    DisplayTransactionsInTable(t);
+
+                    // Desposit Account actions
+                    acc.deposit(Double.parseDouble(amountTXT.getText()));
+                    balanceTXT.setText(String.valueOf(acc.balance));
+
+                }
+            }
+        });
+
+        withdrawalBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!newRec && amountTXT.getText().length() !=0){
+
+                    // Adding Transaction to table
+                    Transaction t = new Transaction(
+                            acc, LocalDate.now(),
+                            'W',
+                            Double.parseDouble(amountTXT.getText()));
+
+                    DisplayTransactionsInTable(t);
+
+
+                    // Perform withdrawal on account
+
+                    acc.withdraw(Double.parseDouble(amountTXT.getText()));
+                    balanceTXT.setText(String.valueOf(acc.balance));
+
+                }
+            }
+        });
+
+        accountsLST.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                acc = x = accountsLST.getSelectedValue();
+
+                accNoTXT.setText(String.valueOf(acc.accNumb));
+                ownerTXT.setText(acc.owner);
+                citiesCMB.setSelectedItem(acc.city);
+
+                if (acc.gender == 'M') maleRDB.setSelected(true);
+                else femaleRDB.setSelected(true);
+
+                balanceTXT.setText(String.valueOf(acc.balance));
+                amountTXT.setEnabled(true);
+                depositBTN.setEnabled(true);
+                newRec = false;
+
+                // Remove or clear the transaction history in table
+
+                for(int i= tableModel.getRowCount() -1; i>0; i--){
+                    tableModel.removeRow(i);
+                }
+
+                // Get the transaction information from the account: This method will search transaction
+
+                SearchTransactionList(acc.accNumb);
+
+            }
+
+            private void SearchTransactionList(int accNumb) {
+
+
+
+
+            }
+        });
+
+    }
+
+    public void DisplayTransactionsInTable(Transaction t){
+
+        // Show data inside of the table for all transactions
+        tableModel.addRow(new Object[]{
+              t.getTrsNo(),
+                t.getDate(),
+                t.getOperation(),
+                t.getAmount()
+        });
+
+        // Adding Transaction List to an array
+        translist.add(t);
 
     }
 
