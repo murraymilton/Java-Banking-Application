@@ -293,7 +293,7 @@ public class AccountFrame extends JFrame {
                 SearchTransactionList(acc.accNumb);
 
             }
-
+// Will add transaction filter option to customer account
             private void SearchTransactionList(int accNumb) {
                 List<Transaction> filteredList = new ArrayList<>();
 
